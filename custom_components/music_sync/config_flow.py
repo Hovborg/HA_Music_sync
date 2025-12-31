@@ -71,9 +71,6 @@ class MusicSyncConfigFlow(ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=schema,
             errors=errors,
-            description_placeholders={
-                "speaker_count": str(len(media_players)),
-            },
         )
 
     async def async_step_microphone(
@@ -83,10 +80,7 @@ class MusicSyncConfigFlow(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
 
         if user_input is not None:
-            self._microphone_device = user_input.get(CONF_MICROPHONE_DEVICE)
-
-            # Validate microphone (in a real implementation)
-            # For now, accept any input
+            self._microphone_device = user_input.get(CONF_MICROPHONE_DEVICE, "default")
 
             # Create the config entry
             return self.async_create_entry(
@@ -101,17 +95,10 @@ class MusicSyncConfigFlow(ConfigFlow, domain=DOMAIN):
                 },
             )
 
-        # Get available audio input devices
-        microphone_options = await self._get_microphone_options()
-
+        # Simple text input for microphone device
         schema = vol.Schema(
             {
-                vol.Required(CONF_MICROPHONE_DEVICE): selector.SelectSelector(
-                    selector.SelectSelectorConfig(
-                        options=microphone_options,
-                        mode=selector.SelectSelectorMode.DROPDOWN,
-                    )
-                ),
+                vol.Optional(CONF_MICROPHONE_DEVICE, default="default"): str,
             }
         )
 
@@ -119,40 +106,7 @@ class MusicSyncConfigFlow(ConfigFlow, domain=DOMAIN):
             step_id="microphone",
             data_schema=schema,
             errors=errors,
-            description_placeholders={
-                "speaker_list": ", ".join(self._speakers),
-            },
         )
-
-    async def _get_microphone_options(self) -> list[selector.SelectOptionDict]:
-        """Get available microphone devices."""
-        options: list[selector.SelectOptionDict] = []
-
-        try:
-            import sounddevice as sd
-
-            devices = sd.query_devices()
-            for idx, device in enumerate(devices):
-                if device.get("max_input_channels", 0) > 0:
-                    options.append(
-                        selector.SelectOptionDict(
-                            value=str(idx),
-                            label=f"{device['name']} ({device['max_input_channels']} ch)",
-                        )
-                    )
-        except Exception as err:
-            _LOGGER.warning("Could not enumerate audio devices: %s", err)
-
-        # Add default option
-        if not options:
-            options.append(
-                selector.SelectOptionDict(
-                    value="default",
-                    label="System Default Microphone",
-                )
-            )
-
-        return options
 
     @staticmethod
     @callback
@@ -182,29 +136,13 @@ class MusicSyncOptionsFlow(OptionsFlow):
                 vol.Optional(
                     CONF_SAMPLE_RATE,
                     default=current_options.get(CONF_SAMPLE_RATE, DEFAULT_SAMPLE_RATE),
-                ): selector.NumberSelector(
-                    selector.NumberSelectorConfig(
-                        min=8000,
-                        max=96000,
-                        step=1000,
-                        mode=selector.NumberSelectorMode.BOX,
-                        unit_of_measurement="Hz",
-                    )
-                ),
+                ): vol.All(vol.Coerce(int), vol.Range(min=8000, max=96000)),
                 vol.Optional(
                     CONF_CALIBRATION_INTERVAL,
                     default=current_options.get(
                         CONF_CALIBRATION_INTERVAL, DEFAULT_CALIBRATION_INTERVAL
                     ),
-                ): selector.NumberSelector(
-                    selector.NumberSelectorConfig(
-                        min=300,
-                        max=86400,
-                        step=300,
-                        mode=selector.NumberSelectorMode.BOX,
-                        unit_of_measurement="seconds",
-                    )
-                ),
+                ): vol.All(vol.Coerce(int), vol.Range(min=300, max=86400)),
             }
         )
 

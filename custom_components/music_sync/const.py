@@ -1,27 +1,23 @@
 """Constants for the Music Sync integration."""
-from typing import Final
-
-from homeassistant.const import Platform
-
-DOMAIN: Final = "music_sync"
+DOMAIN = "music_sync"
 
 # Configuration keys
-CONF_SPEAKERS: Final = "speakers"
-CONF_MICROPHONE_DEVICE: Final = "microphone_device"
-CONF_SAMPLE_RATE: Final = "sample_rate"
-CONF_CALIBRATION_INTERVAL: Final = "calibration_interval"
+CONF_SPEAKERS = "speakers"
+CONF_MICROPHONE_DEVICE = "microphone_device"
+CONF_SAMPLE_RATE = "sample_rate"
+CONF_CALIBRATION_INTERVAL = "calibration_interval"
 
 # Default values
-DEFAULT_SAMPLE_RATE: Final = 44100
-DEFAULT_CALIBRATION_INTERVAL: Final = 3600  # 1 hour in seconds
+DEFAULT_SAMPLE_RATE = 44100
+DEFAULT_CALIBRATION_INTERVAL = 3600  # 1 hour in seconds
 
 # Calibration settings
-CALIBRATION_DURATION: Final = 3.0  # seconds to record
-TEST_SIGNAL_DURATION: Final = 0.2  # 200ms chirp
-MIN_CONFIDENCE_SCORE: Final = 10.0  # standard score threshold
+CALIBRATION_DURATION = 3.0  # seconds to record
+TEST_SIGNAL_DURATION = 0.2  # 200ms chirp
+MIN_CONFIDENCE_SCORE = 10.0  # standard score threshold
 
 # Frequency assignments for multi-speaker calibration
-SPEAKER_FREQUENCIES: Final = {
+SPEAKER_FREQUENCIES = {
     0: 1000,   # Hz
     1: 1500,
     2: 2000,
@@ -33,16 +29,16 @@ SPEAKER_FREQUENCIES: Final = {
 }
 
 # Services
-SERVICE_CALIBRATE: Final = "calibrate"
-SERVICE_CALIBRATE_SPEAKER: Final = "calibrate_speaker"
-SERVICE_SET_OFFSET: Final = "set_offset"
-SERVICE_CLEAR_OFFSETS: Final = "clear_offsets"
+SERVICE_CALIBRATE = "calibrate"
+SERVICE_CALIBRATE_SPEAKER = "calibrate_speaker"
+SERVICE_SET_OFFSET = "set_offset"
+SERVICE_CLEAR_OFFSETS = "clear_offsets"
 
 # Attributes
-ATTR_OFFSET_MS: Final = "offset_ms"
-ATTR_CONFIDENCE: Final = "confidence"
-ATTR_LAST_CALIBRATION: Final = "last_calibration"
-ATTR_SPEAKER_OFFSETS: Final = "speaker_offsets"
+ATTR_OFFSET_MS = "offset_ms"
+ATTR_CONFIDENCE = "confidence"
+ATTR_LAST_CALIBRATION = "last_calibration"
+ATTR_SPEAKER_OFFSETS = "speaker_offsets"
 
 # Platforms
-PLATFORMS: Final = [Platform.MEDIA_PLAYER]
+PLATFORMS = ["media_player"]
