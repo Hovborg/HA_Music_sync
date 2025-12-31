@@ -1,0 +1,16 @@
+{
+  "domain": "music_sync",
+  "name": "Music Sync",
+  "codeowners": ["@hovborg"],
+  "config_flow": true,
+  "dependencies": ["media_player"],
+  "documentation": "https://github.com/hovborg/ha-music-sync",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/hovborg/ha-music-sync/issues",
+  "requirements": [
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    "sounddevice>=0.4.6"
+  ],
+  "version": "0.1.0"
+}

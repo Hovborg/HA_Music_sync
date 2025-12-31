@@ -1,0 +1,82 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Select Speakers",
+        "description": "Select the speakers you want to synchronize. You need at least 2 speakers.\n\nFound {speaker_count} media players in your system.",
+        "data": {
+          "speakers": "Speakers to sync"
+        }
+      },
+      "microphone": {
+        "title": "Configure Microphone",
+        "description": "Select the microphone that will be used for calibration.\n\nSelected speakers: {speaker_list}\n\nThe microphone should be placed in a central location where it can hear all speakers.",
+        "data": {
+          "microphone_device": "Microphone device"
+        }
+      }
+    },
+    "error": {
+      "min_speakers": "Please select at least 2 speakers to sync",
+      "microphone_error": "Could not access microphone",
+      "unknown": "An unknown error occurred"
+    },
+    "abort": {
+      "no_media_players": "No media players found in your Home Assistant installation",
+      "already_configured": "Music Sync is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Music Sync Options",
+        "description": "Configure advanced settings for audio synchronization.",
+        "data": {
+          "sample_rate": "Audio sample rate",
+          "calibration_interval": "Auto-calibration interval"
+        }
+      }
+    }
+  },
+  "services": {
+    "calibrate": {
+      "name": "Calibrate All",
+      "description": "Run calibration on all configured speakers to measure and compensate for latency differences."
+    },
+    "calibrate_speaker": {
+      "name": "Calibrate Speaker",
+      "description": "Run calibration on a specific speaker.",
+      "fields": {
+        "entity_id": {
+          "name": "Speaker",
+          "description": "The speaker entity to calibrate"
+        }
+      }
+    },
+    "set_offset": {
+      "name": "Set Offset",
+      "description": "Manually set the latency offset for a speaker.",
+      "fields": {
+        "entity_id": {
+          "name": "Speaker",
+          "description": "The speaker entity to configure"
+        },
+        "offset_ms": {
+          "name": "Offset (ms)",
+          "description": "Latency offset in milliseconds. Positive delays playback, negative advances it."
+        }
+      }
+    },
+    "clear_offsets": {
+      "name": "Clear Offsets",
+      "description": "Clear all stored latency offsets and reset to defaults."
+    }
+  },
+  "entity": {
+    "media_player": {
+      "synced_group": {
+        "name": "Synced Speaker Group"
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+calibrate:
+  name: Calibrate All Speakers
+  description: Run calibration on all configured speakers to measure and compensate for latency differences.
+
+calibrate_speaker:
+  name: Calibrate Single Speaker
+  description: Run calibration on a specific speaker.
+  fields:
+    entity_id:
+      name: Speaker
+      description: The media player entity to calibrate
+      required: true
+      selector:
+        entity:
+          domain: media_player
+
+set_offset:
+  name: Set Manual Offset
+  description: Manually set the latency offset for a speaker.
+  fields:
+    entity_id:
+      name: Speaker
+      description: The media player entity to configure
+      required: true
+      selector:
+        entity:
+          domain: media_player
+    offset_ms:
+      name: Offset (milliseconds)
+      description: Latency offset in milliseconds. Positive values delay playback, negative values advance it.
+      required: true
+      selector:
+        number:
+          min: -500
+          max: 500
+          step: 1
+          unit_of_measurement: ms
+          mode: box
+
+clear_offsets:
+  name: Clear All Offsets
+  description: Clear all stored latency offsets and reset to defaults.

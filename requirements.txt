@@ -1,0 +1,12 @@
+# Music Sync - Dependencies
+
+# Core dependencies (required)
+numpy>=1.24.0
+scipy>=1.10.0
+sounddevice>=0.4.6
+
+# Optional - for visualization in demo
+matplotlib>=3.7.0
+
+# Home Assistant integration uses these via manifest.json
+# but for standalone testing, install manually
