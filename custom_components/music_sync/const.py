@@ -1,6 +1,8 @@
 """Constants for the Music Sync integration."""
 from typing import Final
 
+from homeassistant.const import Platform
+
 DOMAIN: Final = "music_sync"
 
 # Configuration keys
@@ -43,4 +45,4 @@ ATTR_LAST_CALIBRATION: Final = "last_calibration"
 ATTR_SPEAKER_OFFSETS: Final = "speaker_offsets"
 
 # Platforms
-PLATFORMS: Final = ["media_player"]
+PLATFORMS: Final = [Platform.MEDIA_PLAYER]

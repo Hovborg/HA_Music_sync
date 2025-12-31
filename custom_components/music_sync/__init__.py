@@ -28,18 +28,17 @@ from .coordinator import MusicSyncCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-type MusicSyncConfigEntry = ConfigEntry[MusicSyncCoordinator]
 
-
-async def async_setup_entry(hass: HomeAssistant, entry: MusicSyncConfigEntry) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Music Sync from a config entry."""
     _LOGGER.info("Setting up Music Sync integration")
 
     # Create coordinator
     coordinator = MusicSyncCoordinator(hass, entry)
 
-    # Store coordinator in entry runtime data
-    entry.runtime_data = coordinator
+    # Store coordinator in hass.data
+    hass.data.setdefault(DOMAIN, {})
+    hass.data[DOMAIN][entry.entry_id] = coordinator
 
     # Initialize coordinator
     await coordinator.async_initialize()
@@ -56,7 +55,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: MusicSyncConfigEntry) ->
     return True
 
 
-async def async_unload_entry(hass: HomeAssistant, entry: MusicSyncConfigEntry) -> bool:
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     _LOGGER.info("Unloading Music Sync integration")
 
@@ -65,7 +64,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: MusicSyncConfigEntry) -
 
     if unload_ok:
         # Cleanup coordinator
-        coordinator: MusicSyncCoordinator = entry.runtime_data
+        coordinator: MusicSyncCoordinator = hass.data[DOMAIN].pop(entry.entry_id)
         await coordinator.async_shutdown()
 
     return unload_ok

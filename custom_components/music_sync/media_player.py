@@ -32,7 +32,7 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up Music Sync media player from a config entry."""
-    coordinator: MusicSyncCoordinator = entry.runtime_data
+    coordinator: MusicSyncCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     async_add_entities([SyncedMediaPlayer(coordinator, entry)])
 
